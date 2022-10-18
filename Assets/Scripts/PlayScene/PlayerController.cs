@@ -58,9 +58,9 @@ public class PlayerController : MonoBehaviour
                 playerJumped.Invoke();
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape)) {
-                playerPaused.Invoke();
-            }
+            // if (Input.GetKeyDown(KeyCode.Escape)) {
+            //     playerPaused.Invoke();
+            // }
         }
 
         if (transform.position.y > 0) playerPastHalfScreen.Invoke(transform.position.y);
