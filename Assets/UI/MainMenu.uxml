@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="MainContainer" style="height: 100%; align-items: center; justify-content: space-between; padding-left: 60px; padding-right: 60px; padding-top: 60px; padding-bottom: 60px;">
+        <ui:VisualElement name="Logo" style="background-image: url(&apos;project://database/Assets/Images/Logo.png?fileID=21300000&amp;guid=838485a19f8f5c6c58362c09cd9ae100&amp;type=3#Logo&apos;); height: 420.32px; width: 832.53px;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,6 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject levelPrefab;
 
-    public Transform player;
+    private Transform player;
 
     public static int score = 0;
 
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
     private LinkedListNode<Level> currentLevel;
 
     public static event UnityAction levelPassed;
+    public static event UnityAction gameEnded;
 
     private static Color[] colors = new Color[] { new Color(0xFF / 255f, 0x5D / 255f, 0x5D / 255f), new Color(0xFF / 255f, 0xD4 / 255f, 0x5E / 255f), new Color(0x74 / 255f, 0xDE / 255f, 0xDB / 255f), new Color(0x6A / 255f, 0x5E / 255f, 0xFF / 255f), new Color(0xFF / 255f, 0x5E / 255f, 0x76 / 255f) };
 
@@ -34,7 +37,7 @@ public class GameManager : MonoBehaviour
         Transform passage = levelPrefab.transform.Find("passage").Find("left");
         levelHeightExtent = passage.position.y + passage.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y;
 
-        levels.AddFirst(generateLevel());
+        levels.AddFirst(generateLevel(0, 3));
         currentLevel = levels.First;
 
         while (getLevelTopY(levels.Last.Value.level) <= Boundaries.screenBounds.y)
@@ -43,8 +46,9 @@ public class GameManager : MonoBehaviour
         PlayerController.playerPastHalfScreen.AddListener(moveLevelsDown);
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        
-        // PlayerController.playerCollided += endGame;
+
+        PlayerController.playerCollided += endGame1;
+        PlayerController.playerFellOutOfScreen += endGame2;
     }
 
     void advanceLevel()
@@ -121,6 +125,40 @@ public class GameManager : MonoBehaviour
     float getLevelTopY(GameObject level)
     {
         return level.transform.position.y + levelHeightExtent;
+    }
+
+    void endGame1()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        PlayerController.playerCollided -= endGame1;
+        
+        player.GetComponent<Collider2D>().enabled = false;
+        player.GetComponent<PlayerController>().controlsEnabled = false;
+
+        PlayerPrefs.SetInt("lastscore", score);
+
+        if (PlayerPrefs.HasKey("highscore") && PlayerPrefs.GetInt("highscore") < score)
+            PlayerPrefs.SetInt("highscore", score);
+
+        score = 0;
+
+        player.GetComponent<Animator>().enabled = true;
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animation>().Play();
+        Time.timeScale = 1.5f;
+    }
+
+    void endGame2() {
+        PlayerController.playerFellOutOfScreen -= endGame2;
+        StartCoroutine(EndGame());
+    }
+
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSecondsRealtime(0);
+        Time.timeScale = 1.5f;
+        gameEnded.Invoke();
+        SceneManager.LoadScene("MainMenu");
     }
 
 }
