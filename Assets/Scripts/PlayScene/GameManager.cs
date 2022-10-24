@@ -150,13 +150,7 @@ public class GameManager : MonoBehaviour
 
     void endGame2() {
         PlayerController.playerFellOutOfScreen -= endGame2;
-        StartCoroutine(EndGame());
-    }
-
-    IEnumerator EndGame()
-    {
-        yield return new WaitForSecondsRealtime(0);
-        Time.timeScale = 1.5f;
+        Time.timeScale = 1f;
         gameEnded.Invoke();
         SceneManager.LoadScene("MainMenu");
     }
