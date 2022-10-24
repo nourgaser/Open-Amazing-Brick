@@ -41,9 +41,16 @@ public class PlayerController : MonoBehaviour
 
         if (controlsEnabled)
         {
-            bool touchStarted = Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
-            bool leftTouch = (touchStarted && Input.GetTouch(0).position.x <= Screen.width / 2);
-            bool rightTouch = (touchStarted && Input.GetTouch(0).position.x > Screen.width / 2);
+            bool leftTouch = false; 
+            // = (touchStarted && Input.GetTouch(0).position.x <= Screen.width / 2);
+            bool rightTouch = false; 
+            // = (touchStarted && Input.GetTouch(0).position.x > Screen.width / 2);
+
+            foreach (Touch touch in Input.touches)
+            {
+                if (touch.phase == TouchPhase.Began && touch.position.x > Screen.width / 2) rightTouch = true;
+                if (touch.phase == TouchPhase.Began && touch.position.x <= Screen.width / 2) leftTouch = true;
+            }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow) || leftTouch)
             {
