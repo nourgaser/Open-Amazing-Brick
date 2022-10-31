@@ -74,3 +74,4 @@ crashlytics-build.properties
 
 *.keystore
 *BurstDebugInformation*/
+*BackUpThisFolder_ButDontShipItWithYourGame*/
