@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     void Awake()
     {
         pauseButton.onClick.AddListener(PauseGame);
+        PlayerController.playerPaused += PauseGame;
         unPauseButton.onClick.AddListener(UnPauseGame);
         backToMainMenuButton.onClick.AddListener(BackToMainMenu);
 

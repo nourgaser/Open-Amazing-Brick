@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -42,9 +40,7 @@ public class PlayerController : MonoBehaviour
         if (controlsEnabled)
         {
             bool leftTouch = false; 
-            // = (touchStarted && Input.GetTouch(0).position.x <= Screen.width / 2);
             bool rightTouch = false; 
-            // = (touchStarted && Input.GetTouch(0).position.x > Screen.width / 2);
 
             foreach (Touch touch in Input.touches)
             {
@@ -65,9 +61,9 @@ public class PlayerController : MonoBehaviour
                 playerJumped.Invoke();
             }
 
-            // if (Input.GetKeyDown(KeyCode.Escape)) {
-            //     playerPaused.Invoke();
-            // }
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                playerPaused.Invoke();
+            }
         }
 
         if (transform.position.y > 0) playerPastHalfScreen.Invoke(transform.position.y);
